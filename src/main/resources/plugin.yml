@@ -1,0 +1,10 @@
+name: Magic-Parkour
+version: 1.0
+main: xenocraft.magicparkour.Main
+api-version: 1.18
+author: itsRed_v2
+commands:
+  parkour:
+    description: command used to interact with the MagicParkour plugin
+    usage: /parkour
+    aliases: [jump]
