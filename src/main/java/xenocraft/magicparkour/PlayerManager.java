@@ -6,6 +6,9 @@ import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
+import xenocraft.magicparkour.data.Parkour;
+import xenocraft.magicparkour.services.PlayerParkouring;
+
 public class PlayerManager {
 
     public static final Map<UUID, PlayerParkouring> players = new HashMap<>();

@@ -2,14 +2,17 @@ package xenocraft.magicparkour.listeners;
 
 import java.util.UUID;
 
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.util.Vector;
 
-import xenocraft.magicparkour.Parkour;
 import xenocraft.magicparkour.ParkourManager;
 import xenocraft.magicparkour.PlayerManager;
+import xenocraft.magicparkour.data.Parkour;
+import xenocraft.magicparkour.elements.steps.StartStep;
 
 public class ParkourStartListener implements Listener {
 
@@ -20,11 +23,16 @@ public class ParkourStartListener implements Listener {
 
         if (PlayerManager.isPlayerRegistered(uuid)) return;
 
+        Vector playerVec = player.getLocation().toVector();
+
         for (Parkour parkour : ParkourManager.parkours) {
-            
-            if (parkour.steps().get(0).isValidPos(player.getLocation().toVector())) {
+
+            StartStep start = (StartStep) parkour.elements().get(0);
+
+            if (start.isValidPos(playerVec)) {
                 PlayerManager.playerJoin(player, parkour);
                 player.sendMessage("§eStarted parkour §6" + parkour.name());
+                player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                 return;
             }
         }

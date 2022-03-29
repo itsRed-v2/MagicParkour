@@ -1,4 +1,4 @@
-package xenocraft.magicparkour;
+package xenocraft.magicparkour.data;
 
 import org.bukkit.Material;
 import org.bukkit.World;

@@ -11,9 +11,9 @@ import static org.mockito.Mockito.mock;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.junit.Test;
-import xenocraft.magicparkour.ParkourProperties;
-import xenocraft.magicparkour.loaders.steploaders.SlimeStepLoader;
-import xenocraft.magicparkour.steps.SlimeStep;
+import xenocraft.magicparkour.data.ParkourProperties;
+import xenocraft.magicparkour.loaders.elements.SlimeStepLoader;
+import xenocraft.magicparkour.elements.steps.SlimeStep;
 
 public class TestSlimeStepLoader {
 
@@ -32,7 +32,7 @@ public class TestSlimeStepLoader {
         SlimeStep expected = new SlimeStep(new Location(worldMock, 1, 23, 4), 1, 1);
 
         try {
-            assertEquals(expected, SlimeStepLoader.loadStep(object, properties));
+            assertEquals(expected, SlimeStepLoader.load(object, properties));
         } catch (InvalidConfigurationException e) {
             fail("no exception expected but got: " + e.getMessage());
         }
@@ -55,7 +55,7 @@ public class TestSlimeStepLoader {
         SlimeStep expected = new SlimeStep(new Location(worldMock, 1, 23, 4), 3, 2);
 
         try {
-            assertEquals(expected, SlimeStepLoader.loadStep(object, properties));
+            assertEquals(expected, SlimeStepLoader.load(object, properties));
         } catch (InvalidConfigurationException e) {
             fail("no exception expected but got: " + e.getMessage());
         }

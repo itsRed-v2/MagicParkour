@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import xenocraft.magicparkour.Parkour;
+import xenocraft.magicparkour.data.Parkour;
 import xenocraft.magicparkour.loaders.ParkourLoader;
 
 public class TestParkourLoader {
@@ -169,7 +169,7 @@ public class TestParkourLoader {
 //        JsonElement element = JsonParser.parseString("{\"foo3\":\"bar3\"}");
 //
 //        try (MockedStatic<StepLoader> mockStepLoader = Mockito.mockStatic(StepLoader.class)) {
-//            mockStepLoader.when(() -> StepLoader.loadStep(element, mock(World.class)))
+//            mockStepLoader.when(() -> StepLoader.load(element, mock(World.class)))
 //                    .thenThrow(new InvalidConfigurationException("exception message"));
 //
 //            expectError("""

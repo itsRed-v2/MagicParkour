@@ -94,6 +94,13 @@ public class JsonUtils {
         return element.getAsJsonObject();
     }
 
+    public static JsonArray getArray(JsonObject object, String memberName) throws InvalidConfigurationException {
+        JsonElement element = getElement(object, memberName);
+
+        if (!element.isJsonArray()) throw new InvalidConfigurationException("element \"" + memberName + "\" must be a JSON array");
+        return element.getAsJsonArray();
+    }
+
     public static JsonElement getElement(JsonObject object , String memberName) throws InvalidConfigurationException {
         if (!object.has(memberName)) throw new InvalidConfigurationException("missing element \"" + memberName + "\"");
         return object.get(memberName);

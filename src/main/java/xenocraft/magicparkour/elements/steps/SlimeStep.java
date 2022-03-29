@@ -1,9 +1,11 @@
-package xenocraft.magicparkour.steps;
+package xenocraft.magicparkour.elements.steps;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
+
+import xenocraft.magicparkour.elements.Step;
 
 public class SlimeStep implements Step {
 

@@ -9,7 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import net.kyori.adventure.text.Component;
 import xenocraft.magicparkour.Main;
 import xenocraft.magicparkour.PlayerManager;
-import xenocraft.magicparkour.PlayerParkouring;
+import xenocraft.magicparkour.services.PlayerParkouring;
 
 public class ParkourInfoTitle {
 
@@ -28,7 +28,7 @@ public class ParkourInfoTitle {
                     if (player == null) continue;
 
                     PlayerParkouring parkouring = PlayerManager.getPlayer(uuid);
-                    int step = parkouring.step;
+                    int step = parkouring.getStepIndex();
                     int lastCheckPoint = parkouring.getCheckIndex();
 
                     String builder = "§eStep §6" + step +

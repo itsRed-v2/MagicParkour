@@ -1,17 +1,17 @@
-package xenocraft.magicparkour.loaders.steploaders;
+package xenocraft.magicparkour.loaders.elements;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.util.Vector;
 
 import com.google.gson.JsonObject;
-import xenocraft.magicparkour.ParkourProperties;
-import xenocraft.magicparkour.steps.SlimeStep;
+import xenocraft.magicparkour.data.ParkourProperties;
+import xenocraft.magicparkour.elements.steps.SlimeStep;
 import xenocraft.magicparkour.utils.JsonUtils;
 
 public class SlimeStepLoader {
 
-    public static SlimeStep loadStep(JsonObject rootObject, ParkourProperties properties) throws InvalidConfigurationException {
+    public static SlimeStep load(JsonObject rootObject, ParkourProperties properties) throws InvalidConfigurationException {
 
         Vector vector = JsonUtils.getVector(rootObject, "pos");
 

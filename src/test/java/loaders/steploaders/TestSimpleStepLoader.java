@@ -11,10 +11,10 @@ import static org.mockito.Mockito.mock;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.junit.Test;
-import xenocraft.magicparkour.ParkourProperties;
-import xenocraft.magicparkour.loaders.StepLoader;
-import xenocraft.magicparkour.loaders.steploaders.SimpleStepLoader;
-import xenocraft.magicparkour.steps.SimpleStep;
+import xenocraft.magicparkour.data.ParkourProperties;
+import xenocraft.magicparkour.loaders.ElementLoader;
+import xenocraft.magicparkour.loaders.elements.SimpleStepLoader;
+import xenocraft.magicparkour.elements.steps.SimpleStep;
 
 public class TestSimpleStepLoader {
 
@@ -22,7 +22,7 @@ public class TestSimpleStepLoader {
         JsonObject object = JsonParser.parseString(jsonInput).getAsJsonObject();
         ParkourProperties properties = new ParkourProperties(mock(World.class), Material.WHITE_STAINED_GLASS, Material.GOLD_BLOCK, Material.NETHERITE_BLOCK);
         try {
-            StepLoader.loadStep(object, properties);
+            ElementLoader.load(object, properties);
             fail("Expected exception with message: " + expectedErrorMessage);
         } catch (InvalidConfigurationException e) {
             assertEquals(expectedErrorMessage, e.getMessage());
@@ -63,7 +63,7 @@ public class TestSimpleStepLoader {
         SimpleStep expected = new SimpleStep(new Location(worldMock, 1, 23, 4), Material.WHITE_STAINED_GLASS);
         
         try {
-            assertEquals(expected, SimpleStepLoader.loadStep(object, properties));
+            assertEquals(expected, SimpleStepLoader.load(object, properties));
         } catch (InvalidConfigurationException e) {
             fail("no exception expected but got: " + e.getMessage());
         }

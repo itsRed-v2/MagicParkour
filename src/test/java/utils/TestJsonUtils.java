@@ -168,6 +168,25 @@ public class TestJsonUtils extends TestCase {
                 "element \"boolean\" is not a valid integer");
     }
 
+    public void testGetArray() {
+        try {
+            JsonElement elem1 = JsonParser.parseString("[\"6.2\", 1051262562, 7]");
+            JsonElement elem2 = JsonParser.parseString("[\"foo\", \"bar\"]");
+            assertEquals(elem1, JsonUtils.getArray(object, "vector2"));
+            assertEquals(elem2, JsonUtils.getArray(object, "stringArray"));
+        } catch (InvalidConfigurationException e) {
+            fail("no exception expected but got: " + e.getMessage());
+        }
+    }
+
+    public void testInvalidGetArray() {
+        expectError(() -> JsonUtils.getArray(object, "string"),
+                "element \"string\" must be a JSON array");
+        expectError(() -> JsonUtils.getArray(object, "number"),
+                "element \"number\" must be a JSON array");
+        expectError(() -> JsonUtils.getArray(object, "boolean"),
+                "element \"boolean\" must be a JSON array");
+    }
 
     public void testGetElement() {
         JsonElement subElement1 = JsonParser.parseString("hello");

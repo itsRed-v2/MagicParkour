@@ -11,6 +11,7 @@ import xenocraft.magicparkour.commands.ParkourTab;
 import xenocraft.magicparkour.listeners.OnLeaveListener;
 import xenocraft.magicparkour.listeners.ParkourStartListener;
 import xenocraft.magicparkour.listeners.PlayerMoveListener;
+import xenocraft.magicparkour.services.PlayerParkouring;
 import xenocraft.magicparkour.tasks.ParkourInfoTitle;
 
 public final class Main extends JavaPlugin {

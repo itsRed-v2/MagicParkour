@@ -13,6 +13,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import xenocraft.magicparkour.data.Parkour;
 import xenocraft.magicparkour.loaders.ParkourLoader;
 
 public class ParkourManager {

@@ -14,9 +14,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.jetbrains.annotations.Contract;
-import xenocraft.magicparkour.Parkour;
-import xenocraft.magicparkour.ParkourProperties;
-import xenocraft.magicparkour.steps.Step;
+import xenocraft.magicparkour.data.Parkour;
+import xenocraft.magicparkour.data.ParkourProperties;
+import xenocraft.magicparkour.elements.ParkourElement;
 import xenocraft.magicparkour.utils.JsonUtils;
 
 public class ParkourLoader {
@@ -52,11 +52,11 @@ public class ParkourLoader {
         if (!stepArrayElement.isJsonArray()) configError("element \"steps\" must be an array of steps");
         JsonArray jsonArray = stepArrayElement.getAsJsonArray();
 
-        List<Step> steps = new ArrayList<>();
+        List<ParkourElement> steps = new ArrayList<>();
 
         for (JsonElement stepElement : jsonArray) {
             try {
-                steps.add(StepLoader.loadStep(stepElement.getAsJsonObject(), properties));
+                steps.add(ElementLoader.load(stepElement.getAsJsonObject(), properties));
             } catch (InvalidConfigurationException e) {
                 configError("at step " + (steps.size() + 1) + ": " + e.getMessage());
             } catch (IllegalStateException ignored) {}
