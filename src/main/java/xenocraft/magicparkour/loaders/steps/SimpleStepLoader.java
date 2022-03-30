@@ -1,4 +1,4 @@
-package xenocraft.magicparkour.loaders.elements;
+package xenocraft.magicparkour.loaders.steps;
 
 import org.bukkit.Location;
 import org.bukkit.block.data.BlockData;
@@ -7,18 +7,18 @@ import org.bukkit.util.Vector;
 
 import com.google.gson.JsonObject;
 import xenocraft.magicparkour.data.ParkourProperties;
-import xenocraft.magicparkour.elements.steps.CheckPointStep;
+import xenocraft.magicparkour.elements.steps.SimpleStep;
 import xenocraft.magicparkour.utils.JsonUtils;
 
-public class CheckpointStepLoader {
+public class SimpleStepLoader {
 
-    public static CheckPointStep load(JsonObject rootObject, ParkourProperties properties) throws InvalidConfigurationException {
+    public static SimpleStep load(JsonObject rootObject, ParkourProperties properties) throws InvalidConfigurationException {
 
         Vector vector = JsonUtils.getVector(rootObject, "pos");
         Location loc = new Location(properties.world(), vector.getX(), vector.getY(), vector.getZ());
 
-        BlockData block = JsonUtils.getBlockData(rootObject, "block", properties.checkpointBlock());
+        BlockData block = JsonUtils.getBlockData(rootObject, "block", properties.baseBlock());
 
-        return new CheckPointStep(loc, block);
+        return new SimpleStep(loc, block);
     }
 }

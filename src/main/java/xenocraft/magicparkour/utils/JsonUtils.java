@@ -107,6 +107,13 @@ public class JsonUtils {
         return element.getAsJsonArray();
     }
 
+    public static JsonObject getArrayObject(JsonArray array, int index) throws InvalidConfigurationException {
+        JsonElement element = array.get(index);
+
+        if (!element.isJsonObject()) throw new InvalidConfigurationException("element at index " + index + " of Array must be a JSON object");
+        return element.getAsJsonObject();
+    }
+
     public static JsonElement getElement(JsonObject object , String memberName) throws InvalidConfigurationException {
         if (!object.has(memberName)) throw new InvalidConfigurationException("missing element \"" + memberName + "\"");
         return object.get(memberName);

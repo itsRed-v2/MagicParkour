@@ -14,7 +14,7 @@ import org.junit.Test;
 import xenocraft.magicparkour.data.ParkourProperties;
 import xenocraft.magicparkour.elements.steps.SimpleStep;
 import xenocraft.magicparkour.loaders.ElementLoader;
-import xenocraft.magicparkour.loaders.elements.SimpleStepLoader;
+import xenocraft.magicparkour.loaders.steps.SimpleStepLoader;
 
 public class TestSimpleStepLoader {
 

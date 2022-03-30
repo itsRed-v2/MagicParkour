@@ -13,7 +13,7 @@ import com.google.gson.JsonParser;
 import org.junit.Test;
 import xenocraft.magicparkour.data.ParkourProperties;
 import xenocraft.magicparkour.elements.steps.SlimeStep;
-import xenocraft.magicparkour.loaders.elements.SlimeStepLoader;
+import xenocraft.magicparkour.loaders.steps.SlimeStepLoader;
 
 public class TestSlimeStepLoader {
 

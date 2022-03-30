@@ -3,6 +3,7 @@ package utils;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.util.Vector;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -31,6 +32,14 @@ public class TestJsonUtils extends TestCase {
                 "nestedObject": {"foo": "bar"}
             }
             """).getAsJsonObject();
+
+    private static final JsonArray array = JsonParser.parseString("""
+            [
+                { "number": 5 },
+                { "number": 7},
+                10
+            ]
+            """).getAsJsonArray();
 
     private interface ExceptionRunnable {
         void run() throws InvalidConfigurationException;
@@ -187,6 +196,23 @@ public class TestJsonUtils extends TestCase {
                 "element \"number\" must be a JSON array");
         expectError(() -> JsonUtils.getArray(object, "boolean"),
                 "element \"boolean\" must be a JSON array");
+    }
+
+    public void testGetArrayObject() {
+        try {
+            JsonElement elem1 = JsonParser.parseString("{ \"number\": 5 }");
+            JsonElement elem2 = JsonParser.parseString("{ \"number\": 7 }");
+
+            assertEquals(elem1, JsonUtils.getArrayObject(array, 0));
+            assertEquals(elem2, JsonUtils.getArrayObject(array, 1));
+        } catch (InvalidConfigurationException e) {
+            fail("no exception expected but got: " + e.getMessage());
+        }
+    }
+
+    public void testInvalidGetArrayObject() {
+        expectError(() -> JsonUtils.getArrayObject(array, 2),
+                "element at index 2 of Array must be a JSON object");
     }
 
     public void testGetElement() {
