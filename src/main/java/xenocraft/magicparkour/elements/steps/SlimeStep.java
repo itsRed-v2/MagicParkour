@@ -37,6 +37,11 @@ public class SlimeStep implements Step {
     }
 
     @Override
+    public Vector getPosition() {
+        return location.toVector();
+    }
+
+    @Override
     public void show() {
         if (visible) return;
         visible = true;

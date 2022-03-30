@@ -35,6 +35,11 @@ public class StartStep implements Step, CheckPoint {
     }
 
     @Override
+    public Vector getPosition() {
+        return location.toVector();
+    }
+
+    @Override
     public void show() {
         if (visible) return;
         visible = true;
@@ -49,7 +54,13 @@ public class StartStep implements Step, CheckPoint {
 
     @Override
     public void teleportPlayer(Player player) {
-        player.teleport(location.add(.5, 1, .5));
+        Location playerLoc = player.getLocation();
+
+        Location tpLoc = location.clone().add(.5, 1, .5);
+        tpLoc.setYaw(playerLoc.getYaw());
+        tpLoc.setPitch(playerLoc.getPitch());
+
+        player.teleport(tpLoc);
     }
 
     @Override

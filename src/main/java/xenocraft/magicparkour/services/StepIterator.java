@@ -25,6 +25,10 @@ public class StepIterator {
         return currentStepIndex;
     }
 
+    public Step getCurrent() {
+        return (Step) elements[currentIndex];
+    }
+
     public @Nullable Step getNext() {
         int index = currentIndex;
         while (true) {

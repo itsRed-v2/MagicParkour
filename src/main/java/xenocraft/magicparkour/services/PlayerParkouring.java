@@ -3,20 +3,24 @@ package xenocraft.magicparkour.services;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import org.jetbrains.annotations.NotNull;
+import xenocraft.magicparkour.Main;
 import xenocraft.magicparkour.PlayerManager;
 import xenocraft.magicparkour.data.Parkour;
 import xenocraft.magicparkour.elements.CheckPoint;
-import xenocraft.magicparkour.elements.steps.StartStep;
 import xenocraft.magicparkour.elements.Step;
+import xenocraft.magicparkour.elements.steps.StartStep;
 
 public class PlayerParkouring {
 
     private final Player player;
     private CheckPoint lastCheckPoint;
     private final StepIterator iterator;
+
+    private boolean fallCheck = true;
 
     public PlayerParkouring(@NotNull Player player, @NotNull Parkour parkour) {
         this.player = player;
@@ -42,7 +46,7 @@ public class PlayerParkouring {
         return player;
     }
 
-    public void onMove() {
+    public void onMove(Main main) {
         Location playerLoc = player.getLocation();
         Vector playerVec = playerLoc.toVector();
 
@@ -58,6 +62,38 @@ public class PlayerParkouring {
             }
         }
 
+        // checking for fall
+        if (fallCheck) {
+            int minHeight = iterator.getCurrent().getPosition().getBlockY();
+
+            next = iterator.getNext();
+            if (next != null) {
+                minHeight = Math.min(minHeight, next.getPosition().getBlockY());
+            }
+
+            minHeight -= 5;
+
+            if (playerVec.getY() < minHeight) {
+                iterator.hideSteps();
+                iterator.teleport(lastCheckPoint.getCheckIndex());
+                iterator.renderSteps();
+
+                fallCheck = false;
+
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        player.setFallDistance(0);
+                        lastCheckPoint.teleportPlayer(player);
+                        player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1, .5f);
+                        
+                        fallCheck = true;
+                    }
+                }.runTaskLater(main, 5);
+            }
+        }
+
+        // rendering steps
         iterator.renderSteps();
     }
 }

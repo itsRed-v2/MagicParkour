@@ -53,7 +53,7 @@ public final class Main extends JavaPlugin {
 
     private void registerEvents() {
         Bukkit.getPluginManager().registerEvents(new ParkourStartListener(), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(this), this);
         Bukkit.getPluginManager().registerEvents(new OnLeaveListener(), this);
     }
 
