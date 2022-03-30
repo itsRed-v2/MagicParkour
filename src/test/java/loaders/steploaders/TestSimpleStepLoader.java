@@ -1,8 +1,8 @@
 package loaders.steploaders;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.InvalidConfigurationException;
 
 import static org.junit.Assert.assertEquals;
@@ -12,15 +12,18 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.junit.Test;
 import xenocraft.magicparkour.data.ParkourProperties;
+import xenocraft.magicparkour.elements.steps.SimpleStep;
 import xenocraft.magicparkour.loaders.ElementLoader;
 import xenocraft.magicparkour.loaders.elements.SimpleStepLoader;
-import xenocraft.magicparkour.elements.steps.SimpleStep;
 
 public class TestSimpleStepLoader {
 
     private void expectError(String jsonInput, String expectedErrorMessage) {
         JsonObject object = JsonParser.parseString(jsonInput).getAsJsonObject();
-        ParkourProperties properties = new ParkourProperties(mock(World.class), Material.WHITE_STAINED_GLASS, Material.GOLD_BLOCK, Material.NETHERITE_BLOCK);
+        
+        ParkourProperties properties = new ParkourProperties(mock(World.class),
+                mock(BlockData.class), mock(BlockData.class), mock(BlockData.class));
+
         try {
             ElementLoader.load(object, properties);
             fail("Expected exception with message: " + expectedErrorMessage);
@@ -43,7 +46,7 @@ public class TestSimpleStepLoader {
     public void testInvalidPos() {
         expectError("""
                 {
-                "pos": [10, "foo", 2]
+                    "pos": [10, "foo", 2]
                 }
                 """,
                 "element \"pos\" must be a list of 3 numbers representing coordinates");
@@ -58,9 +61,11 @@ public class TestSimpleStepLoader {
                 """).getAsJsonObject();
         World worldMock = mock(World.class);
 
-        ParkourProperties properties = new ParkourProperties(worldMock, Material.WHITE_STAINED_GLASS, Material.GOLD_BLOCK, Material.NETHERITE_BLOCK);
+        BlockData baseBlock = mock(BlockData.class);
+        ParkourProperties properties = new ParkourProperties(worldMock,
+                baseBlock, mock(BlockData.class), mock(BlockData.class));
 
-        SimpleStep expected = new SimpleStep(new Location(worldMock, 1, 23, 4), Material.WHITE_STAINED_GLASS);
+        SimpleStep expected = new SimpleStep(new Location(worldMock, 1, 23, 4), baseBlock);
         
         try {
             assertEquals(expected, SimpleStepLoader.load(object, properties));

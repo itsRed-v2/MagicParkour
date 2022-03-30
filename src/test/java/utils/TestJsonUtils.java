@@ -1,6 +1,5 @@
 package utils;
 
-import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.util.Vector;
 
@@ -25,8 +24,9 @@ public class TestJsonUtils extends TestCase {
                 "2lengthVector": [4, 62],
                 "wrongVector": [230.67, 2, "abc"],
                 "stringArray": ["foo", "bar"],
-                "material1": "WHITE_STAINED_GLASS",
-                "material2": "stone_bricks",
+                "blockdata1": "WHITE_STAINED_GLASS",
+                "blockdata2": "stone_bricks",
+                "complexBlockdata": "ladder[facing=west]",
                 "invalidMaterial": "stone-bricks",
                 "nestedObject": {"foo": "bar"}
             }
@@ -102,38 +102,39 @@ public class TestJsonUtils extends TestCase {
                 "element \"nestedObject\" must be a string");
     }
     
-    public void testGetMaterial() {
-        try {
-            assertEquals(Material.WHITE_STAINED_GLASS, JsonUtils.getMaterial(object, "material1"));
-            assertEquals(Material.STONE_BRICKS, JsonUtils.getMaterial(object, "material2"));
-        } catch (InvalidConfigurationException e) {
-            fail("no exception expected but got: " + e.getMessage());
-        }
-    }
-
-    public void testInvalidGetMaterial() {
-        expectError(() -> JsonUtils.getMaterial(object, "invalidMaterial"),
-                "\"stone-bricks\" does not correspond to a material");
-        expectError(() -> JsonUtils.getMaterial(object, "number"),
-                "\"7.92\" does not correspond to a material");
-
-        expectError(() -> JsonUtils.getMaterial(object, "vector"),
-                "element \"vector\" must be a string corresponding to a material");
-    }
-
-    public void testDefaultGetMaterial() {
-        try {
-            assertEquals(Material.REDSTONE_BLOCK, JsonUtils.getMaterial(object, "inextisting-field", Material.REDSTONE_BLOCK));
-            assertEquals(Material.STONE_BRICKS, JsonUtils.getMaterial(object, "material2", Material.REDSTONE_BLOCK));
-        } catch (InvalidConfigurationException e) {
-            fail("no exception expected but got: " + e.getMessage());
-        }
-
-        expectError(() -> JsonUtils.getMaterial(object, "number", Material.REDSTONE_BLOCK),
-                "\"7.92\" does not correspond to a material");
-        expectError(() -> JsonUtils.getMaterial(object, "vector", Material.REDSTONE_BLOCK),
-                "element \"vector\" must be a string corresponding to a material");
-    }
+//    public void testGetBlockData() {
+//        try {
+//            assertEquals(Bukkit.createBlockData("minecraft:white_stained_glass"), JsonUtils.getBlockData(object, "blockdata1"));
+//            assertEquals(Bukkit.createBlockData("minecraft:stone_bricks"), JsonUtils.getBlockData(object, "blockdata2"));
+//            assertEquals(Bukkit.createBlockData("minecraft:ladder[facing=west]"), JsonUtils.getBlockData(object, "complexBlockdata"));
+//        } catch (InvalidConfigurationException e) {
+//            fail("no exception expected but got: " + e.getMessage());
+//        }
+//    }
+//
+//    public void testInvalidGetBlockData() {
+//        expectError(() -> JsonUtils.getBlockData(object, "invalidMaterial"),
+//                "\"stone-bricks\" does not correspond to a material");
+//        expectError(() -> JsonUtils.getBlockData(object, "number"),
+//                "\"7.92\" does not correspond to a material");
+//
+//        expectError(() -> JsonUtils.getBlockData(object, "vector"),
+//                "element \"vector\" must be a string corresponding to a material");
+//    }
+//
+//    public void testDefaultGetBlockData() {
+//        try {
+//            assertEquals(Bukkit.createBlockData(Material.REDSTONE_BLOCK), JsonUtils.getBlockData(object, "inextisting-field", Bukkit.createBlockData(Material.REDSTONE_BLOCK)));
+//            assertEquals(Bukkit.createBlockData(Material.STONE_BRICKS), JsonUtils.getBlockData(object, "material2", Bukkit.createBlockData(Material.REDSTONE_BLOCK)));
+//        } catch (InvalidConfigurationException e) {
+//            fail("no exception expected but got: " + e.getMessage());
+//        }
+//
+//        expectError(() -> JsonUtils.getBlockData(object, "number", Bukkit.createBlockData(Material.REDSTONE_BLOCK)),
+//                "\"7.92\" does not correspond to a block");
+//        expectError(() -> JsonUtils.getBlockData(object, "vector", Bukkit.createBlockData(Material.REDSTONE_BLOCK)),
+//                "element \"vector\" must be a string corresponding to a block");
+//    }
 
 
     public void testGetInt() {

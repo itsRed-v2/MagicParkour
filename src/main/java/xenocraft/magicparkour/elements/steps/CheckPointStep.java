@@ -2,6 +2,7 @@ package xenocraft.magicparkour.elements.steps;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
@@ -12,14 +13,14 @@ import xenocraft.magicparkour.elements.Step;
 public class CheckPointStep implements Step, CheckPoint {
 
     private final Location location;
-    private final Material material;
+    private final BlockData block;
     public int checkIndex;
 
     private boolean visible = false;
 
-    public CheckPointStep(Location location, Material material) {
+    public CheckPointStep(Location location, BlockData blockData) {
         this.location = location.toBlockLocation();
-        this.material = material;
+        block = blockData;
     }
 
     @Override
@@ -29,8 +30,11 @@ public class CheckPointStep implements Step, CheckPoint {
 
     @Override
     public boolean isValidPos(Vector vector) {
-        BoundingBox box = location.getBlock().getBoundingBox();
-        box.shift(0, 1, 0);
+        int x = location.getBlockX();
+        int y = location.getBlockY();
+        int z = location.getBlockZ();
+
+        BoundingBox box = new BoundingBox(x, y, z, x+1, y+2, z+1);
         box.expand(.3, 0, .3);
         return box.contains(vector);
     }
@@ -39,7 +43,7 @@ public class CheckPointStep implements Step, CheckPoint {
     public void show() {
         if (visible) return;
         visible = true;
-        location.getBlock().setType(material);
+        location.getBlock().setBlockData(block);
     }
 
     @Override
@@ -61,7 +65,7 @@ public class CheckPointStep implements Step, CheckPoint {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof CheckPointStep step
-                && material == step.material
+                && block.equals(step.block)
                 && location.equals(step.location);
     }
 }

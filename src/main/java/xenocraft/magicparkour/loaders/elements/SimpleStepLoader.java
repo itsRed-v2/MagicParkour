@@ -1,7 +1,7 @@
 package xenocraft.magicparkour.loaders.elements;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.util.Vector;
 
@@ -17,8 +17,8 @@ public class SimpleStepLoader {
         Vector vector = JsonUtils.getVector(rootObject, "pos");
         Location loc = new Location(properties.world(), vector.getX(), vector.getY(), vector.getZ());
 
-        Material material = JsonUtils.getMaterial(rootObject, "material", properties.blockMaterial());
+        BlockData block = JsonUtils.getBlockData(rootObject, "block", properties.baseBlock());
 
-        return new SimpleStep(loc, material);
+        return new SimpleStep(loc, block);
     }
 }

@@ -12,7 +12,7 @@ import xenocraft.magicparkour.elements.Step;
 public record Parkour(String name, Location start, List<ParkourElement> elements, ParkourProperties properties) {
 
     public Parkour {
-        elements.add(0, new StartStep(start, properties.startMaterial()));
+        elements.add(0, new StartStep(start, properties.startBlock()));
 
         int stepNumber = -1;
         for (ParkourElement element : elements) {

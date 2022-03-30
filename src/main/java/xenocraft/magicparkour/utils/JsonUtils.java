@@ -1,6 +1,7 @@
 package xenocraft.magicparkour.utils;
 
-import org.bukkit.Material;
+import org.bukkit.Bukkit;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.util.Vector;
 
@@ -50,21 +51,26 @@ public class JsonUtils {
         return getString(object, memberName);
     }
 
-    public static @NotNull Material getMaterial(JsonObject object, String memberName) throws InvalidConfigurationException {
+    public static @NotNull BlockData getBlockData(JsonObject object, String memberName) throws InvalidConfigurationException {
         JsonElement element = getElement(object, memberName);
 
-        if (!element.isJsonPrimitive()) throw new InvalidConfigurationException("element \"" + memberName + "\" must be a string corresponding to a material");
-        String stringMaterial = element.getAsString();
+        if (!element.isJsonPrimitive()) throw new InvalidConfigurationException("element \"" + memberName + "\" must be a string corresponding to a block");
+        String stringData = element.getAsString();
 
-        Material material = Material.getMaterial(stringMaterial.toUpperCase());
-        Utils.assertNotNull(material, "\"" + stringMaterial + "\" does not correspond to a material");
+        BlockData block;
+        try {
+             block = Bukkit.createBlockData(stringData);
+        } catch (IllegalArgumentException exception) {
+            exception.printStackTrace();
+            throw new InvalidConfigurationException("element \"" + memberName + "\" must be a valid BlockData. e.g: \"minecraft:oak_slab[type=top]\"");
+        }
 
-        return material;
+        return block;
     }
 
-    public static @NotNull Material getMaterial(JsonObject object, String memberName, Material defaultValue) throws InvalidConfigurationException {
+    public static @NotNull BlockData getBlockData(JsonObject object, String memberName, BlockData defaultValue) throws InvalidConfigurationException {
         if (!object.has(memberName)) return defaultValue;
-        return getMaterial(object, memberName);
+        return getBlockData(object, memberName);
     }
 
     public static int getInt(JsonObject object, String memberName) throws InvalidConfigurationException {

@@ -1,8 +1,8 @@
 package loaders.steploaders;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.InvalidConfigurationException;
 
 import static org.junit.Assert.assertEquals;
@@ -12,8 +12,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.junit.Test;
 import xenocraft.magicparkour.data.ParkourProperties;
-import xenocraft.magicparkour.loaders.elements.SlimeStepLoader;
 import xenocraft.magicparkour.elements.steps.SlimeStep;
+import xenocraft.magicparkour.loaders.elements.SlimeStepLoader;
 
 public class TestSlimeStepLoader {
 
@@ -25,9 +25,11 @@ public class TestSlimeStepLoader {
                     "pos": [1, 23, 4]
                 }
                 """).getAsJsonObject();
+        
         World worldMock = mock(World.class);
 
-        ParkourProperties properties = new ParkourProperties(worldMock, Material.WHITE_STAINED_GLASS, Material.GOLD_BLOCK, Material.DIAMOND_BLOCK);
+        ParkourProperties properties = new ParkourProperties(worldMock,
+                mock(BlockData.class), mock(BlockData.class), mock(BlockData.class));
 
         SlimeStep expected = new SlimeStep(new Location(worldMock, 1, 23, 4), 1, 1);
 
@@ -48,9 +50,11 @@ public class TestSlimeStepLoader {
                     "sizeZ": 2.5
                 }
                 """).getAsJsonObject();
+        
         World worldMock = mock(World.class);
 
-        ParkourProperties properties = new ParkourProperties(worldMock, Material.WHITE_STAINED_GLASS, Material.GOLD_BLOCK, Material.DIAMOND_BLOCK);
+        ParkourProperties properties = new ParkourProperties(worldMock,
+                mock(BlockData.class), mock(BlockData.class), mock(BlockData.class));
 
         SlimeStep expected = new SlimeStep(new Location(worldMock, 1, 23, 4), 3, 2);
 

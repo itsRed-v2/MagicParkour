@@ -1,7 +1,7 @@
 package xenocraft.magicparkour.loaders.elements;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.util.Vector;
 
@@ -17,8 +17,8 @@ public class CheckpointStepLoader {
         Vector vector = JsonUtils.getVector(rootObject, "pos");
         Location loc = new Location(properties.world(), vector.getX(), vector.getY(), vector.getZ());
 
-        Material material = JsonUtils.getMaterial(rootObject, "material", properties.checkpointMaterial());
+        BlockData block = JsonUtils.getBlockData(rootObject, "block", properties.checkpointBlock());
 
-        return new CheckPointStep(loc, material);
+        return new CheckPointStep(loc, block);
     }
 }

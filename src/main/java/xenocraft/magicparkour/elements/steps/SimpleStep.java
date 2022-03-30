@@ -2,6 +2,7 @@ package xenocraft.magicparkour.elements.steps;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.util.BoundingBox;
 import org.bukkit.util.Vector;
 
@@ -10,13 +11,13 @@ import xenocraft.magicparkour.elements.Step;
 public class SimpleStep implements Step {
 
     private final Location location;
-    private final Material material;
+    private final BlockData block;
 
     private boolean visible = false;
 
-    public SimpleStep(Location location, Material material) {
+    public SimpleStep(Location location, BlockData blockData) {
         this.location = location.toBlockLocation();
-        this.material = material;
+        block = blockData;
     }
 
     @Override
@@ -26,10 +27,12 @@ public class SimpleStep implements Step {
 
     @Override
     public boolean isValidPos(Vector vector) {
-        BoundingBox box = location.getBlock().getBoundingBox();
-        box.shift(0, 1, 0);
-        box.expand(.3, 0, .3);
+        int x = location.getBlockX();
+        int y = location.getBlockY();
+        int z = location.getBlockZ();
 
+        BoundingBox box = new BoundingBox(x, y, z, x+1, y+2, z+1);
+        box.expand(.3, 0, .3);
         return box.contains(vector);
     }
 
@@ -37,7 +40,7 @@ public class SimpleStep implements Step {
     public void show() {
         if (visible) return;
         visible = true;
-        location.getBlock().setType(material);
+        location.getBlock().setBlockData(block);
     }
 
     @Override
@@ -50,7 +53,7 @@ public class SimpleStep implements Step {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof SimpleStep step
-                && material == step.material
+                && block.equals(step.block)
                 && location.equals(step.location);
     }
 }

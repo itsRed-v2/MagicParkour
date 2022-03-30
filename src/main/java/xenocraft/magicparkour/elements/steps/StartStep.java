@@ -1,7 +1,7 @@
 package xenocraft.magicparkour.elements.steps;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.util.BlockVector;
 import org.bukkit.util.Vector;
@@ -12,13 +12,13 @@ import xenocraft.magicparkour.elements.Step;
 public class StartStep implements Step, CheckPoint {
 
     private final Location location;
-    private final Material material;
+    private final BlockData block;
 
     private boolean visible = false;
 
-    public StartStep(Location location, Material material) {
+    public StartStep(Location location, BlockData blockData) {
         this.location = location.toBlockLocation();
-        this.material = material;
+        block = blockData;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class StartStep implements Step, CheckPoint {
         if (visible) return;
         visible = true;
 
-        location.getBlock().setType(material);
+        location.getBlock().setBlockData(block);
     }
 
     @Override
@@ -61,6 +61,6 @@ public class StartStep implements Step, CheckPoint {
     public boolean equals(Object obj) {
         return obj instanceof StartStep start
                 && location.equals(start.location)
-                && material == start.material;
+                && block.equals(start.block);
     }
 }

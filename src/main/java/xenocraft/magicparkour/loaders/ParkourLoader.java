@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.util.Vector;
 
@@ -38,13 +39,13 @@ public class ParkourLoader {
         Vector startVector = JsonUtils.getVector(startObject, "pos");
         Location start = new Location(world, startVector.getX(), startVector.getY(), startVector.getZ());
 
-        Material startMaterial = JsonUtils.getMaterial(startObject, "material", Material.NETHERITE_BLOCK);
+        BlockData startBlock = JsonUtils.getBlockData(startObject, "block", Bukkit.createBlockData(Material.GOLD_BLOCK));
 
         // Parsing properties
-        Material blockMaterial = JsonUtils.getMaterial(rootObject, "base_material", Material.WHITE_STAINED_GLASS);
-        Material checkpointMaterial = JsonUtils.getMaterial(rootObject, "checkpoint_material", Material.GOLD_BLOCK);
+        BlockData baseBlock = JsonUtils.getBlockData(rootObject, "base_block", Bukkit.createBlockData(Material.WHITE_STAINED_GLASS));
+        BlockData checkpointBlock = JsonUtils.getBlockData(rootObject, "checkpoint_block", Bukkit.createBlockData(Material.GOLD_BLOCK));
 
-        ParkourProperties properties = new ParkourProperties(world, blockMaterial, checkpointMaterial, startMaterial);
+        ParkourProperties properties = new ParkourProperties(world, baseBlock, checkpointBlock, startBlock);
 
         // Parsing steps
         JsonElement stepArrayElement = JsonUtils.getElement(rootObject, "steps");
