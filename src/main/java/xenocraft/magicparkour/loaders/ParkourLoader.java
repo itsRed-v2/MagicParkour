@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.util.Vector;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -18,6 +16,8 @@ import org.jetbrains.annotations.Contract;
 import xenocraft.magicparkour.data.Parkour;
 import xenocraft.magicparkour.data.ParkourProperties;
 import xenocraft.magicparkour.elements.ParkourElement;
+import xenocraft.magicparkour.loaders.steps.EndStepLoader;
+import xenocraft.magicparkour.loaders.steps.StartStepLoader;
 import xenocraft.magicparkour.utils.JsonUtils;
 
 public class ParkourLoader {
@@ -31,39 +31,37 @@ public class ParkourLoader {
         // Parsing world
         String worldName = JsonUtils.getString(rootObject, "world");
         World world = Bukkit.getWorld(worldName);
-        assertNotNull(world, "provided world doesn't exist");
-
-        // Parsing start data
-        JsonObject startObject = JsonUtils.getObject(rootObject, "start").getAsJsonObject();
-
-        Vector startVector = JsonUtils.getVector(startObject, "pos");
-        Location start = new Location(world, startVector.getX(), startVector.getY(), startVector.getZ());
-
-        BlockData startBlock = JsonUtils.getBlockData(startObject, "block", Bukkit.createBlockData(Material.GOLD_BLOCK));
+        assertNotNull(world, "world \"" + worldName + "\" doesn't exist");
 
         // Parsing properties
         BlockData baseBlock = JsonUtils.getBlockData(rootObject, "base_block", Bukkit.createBlockData(Material.WHITE_STAINED_GLASS));
         BlockData checkpointBlock = JsonUtils.getBlockData(rootObject, "checkpoint_block", Bukkit.createBlockData(Material.GOLD_BLOCK));
 
-        ParkourProperties properties = new ParkourProperties(world, baseBlock, checkpointBlock, startBlock);
+        ParkourProperties properties = new ParkourProperties(world, baseBlock, checkpointBlock);
 
         // Parsing steps
-        JsonElement stepArrayElement = JsonUtils.getElement(rootObject, "steps");
-        assertNotNull(stepArrayElement, "no steps provided");
-        if (!stepArrayElement.isJsonArray()) configError("element \"steps\" must be an array of steps");
-        JsonArray jsonArray = stepArrayElement.getAsJsonArray();
+            List<ParkourElement> elements = new ArrayList<>();
 
-        List<ParkourElement> steps = new ArrayList<>();
+            // Parsing start data
+            JsonObject startObject = JsonUtils.getObject(rootObject, "start");
+            elements.add(StartStepLoader.load(startObject, properties));
 
-        for (JsonElement stepElement : jsonArray) {
-            try {
-                steps.add(ElementLoader.load(stepElement.getAsJsonObject(), properties));
-            } catch (InvalidConfigurationException e) {
-                configError("at step " + (steps.size() + 1) + ": " + e.getMessage());
-            } catch (IllegalStateException ignored) {}
-        }
+            // Parsing elements
+            JsonArray jsonArray = JsonUtils.getArray(rootObject, "steps");
 
-        return new Parkour(parkourName, start, steps, properties);
+            for (JsonElement elem : jsonArray) {
+                try {
+                    elements.add(ElementLoader.load(elem.getAsJsonObject(), properties));
+                } catch (InvalidConfigurationException e) {
+                    configError("at step " + elements.size() + ": " + e.getMessage());
+                } catch (IllegalStateException ignored) {}
+            }
+
+            // Parsing end data
+            JsonObject endObject = JsonUtils.getObject(rootObject, "end");
+            elements.add(EndStepLoader.load(endObject, properties));
+
+        return new Parkour(parkourName, elements);
     }
 
     @Contract("null,_ -> fail")

@@ -52,7 +52,10 @@ public class TestParkourLoader {
                         "pos": [10, 4, 2]
                     },
                     "customName": "§6Lobby parkour",
-                    "steps": []
+                    "steps": [],
+                    "end": {
+                        "pos": [12, 4, 2]
+                    }
                 }
                 """);
 
@@ -72,7 +75,10 @@ public class TestParkourLoader {
                     "start": {
                         "pos": [10, 4, 2]
                     },
-                    "steps": []
+                    "steps": [],
+                    "end": {
+                        "pos": [12, 4, 2]
+                    }
                 }
                 """);
 
@@ -89,11 +95,14 @@ public class TestParkourLoader {
         expectError("""
                 {
                     "world": "worldName",
+                    "customName": [2, 5],
                     "start": {
                         "pos": [10, 4, 2]
                     },
-                    "customName": [2, 5],
-                    "steps": []
+                    "steps": [],
+                    "end": {
+                        "pos": [12, 4, 2]
+                    }
                 }
                 """,
                 "element \"customName\" must be a string");
@@ -106,7 +115,10 @@ public class TestParkourLoader {
                     "start": {
                         "pos": [10, 4, 2]
                     },
-                    "steps": []
+                    "steps": [],
+                    "end": {
+                        "pos": [12, 4, 2]
+                    }
                 }
                 """,
                 "missing element \"world\"");
@@ -120,10 +132,13 @@ public class TestParkourLoader {
                     "start": {
                         "pos": [10, 4, 2]
                     },
-                    "steps": []
+                    "steps": [],
+                    "end": {
+                        "pos": [12, 4, 2]
+                    }
                 }
                 """,
-                "provided world doesn't exist");
+                "world \"invalidWorldName\" doesn't exist");
     }
 
     @Test
@@ -131,7 +146,10 @@ public class TestParkourLoader {
         expectError("""
                 {
                     "world": "worldName",
-                    "steps": []
+                    "steps": [],
+                    "end": {
+                        "pos": [12, 4, 2]
+                    }
                 }
                 """,
                 "missing element \"start\"");
@@ -139,29 +157,17 @@ public class TestParkourLoader {
     
     @Test
     public void testInvalidStart() {
-        String[] jsonInputs = {"""
+        expectError("""
                 {
                     "world": "worldName",
-                    "start": [10, 5],
-                    "steps": []
+                    "start": [10, 4, 2],
+                    "steps": [],
+                    "end": {
+                        "pos": [12, 4, 2]
+                    }
                 }
-                """, """
-                {
-                    "world": "worldName",
-                    "start": [10, 5, 2, 13],
-                    "steps": []
-                }
-                """, """
-                {
-                    "world": "worldName",
-                    "start": [10, "foo", 2],
-                    "steps": []
-                }
-                """};
-
-        for (String input : jsonInputs) {
-            expectError(input, "element \"start\" must be a JSON object");
-        }
+                """,
+                "element \"start\" must be a JSON object");
     }
 
 //    @Test

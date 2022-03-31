@@ -7,5 +7,4 @@ import org.jetbrains.annotations.NotNull;
 
 public record ParkourProperties(@NotNull World world,
                                 @NotNull BlockData baseBlock,
-                                @NotNull BlockData checkpointBlock,
-                                @NotNull BlockData startBlock) {}
+                                @NotNull BlockData checkpointBlock) {}

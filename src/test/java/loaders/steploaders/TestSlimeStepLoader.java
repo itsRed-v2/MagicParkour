@@ -28,8 +28,7 @@ public class TestSlimeStepLoader {
         
         World worldMock = mock(World.class);
 
-        ParkourProperties properties = new ParkourProperties(worldMock,
-                mock(BlockData.class), mock(BlockData.class), mock(BlockData.class));
+        ParkourProperties properties = new ParkourProperties(worldMock, mock(BlockData.class), mock(BlockData.class));
 
         SlimeStep expected = new SlimeStep(new Location(worldMock, 1, 23, 4), 1, 1);
 
@@ -53,8 +52,7 @@ public class TestSlimeStepLoader {
         
         World worldMock = mock(World.class);
 
-        ParkourProperties properties = new ParkourProperties(worldMock,
-                mock(BlockData.class), mock(BlockData.class), mock(BlockData.class));
+        ParkourProperties properties = new ParkourProperties(worldMock, mock(BlockData.class), mock(BlockData.class));
 
         SlimeStep expected = new SlimeStep(new Location(worldMock, 1, 23, 4), 3, 2);
 

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,6 +15,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import xenocraft.magicparkour.data.Parkour;
+import xenocraft.magicparkour.elements.ParkourElement;
 import xenocraft.magicparkour.loaders.ParkourLoader;
 
 public class ParkourManager {
@@ -23,7 +25,6 @@ public class ParkourManager {
     public static void loadALL(File parkourConfigFile) {
 
         JsonElement config;
-
         try {
             config = JsonParser.parseReader(new FileReader(parkourConfigFile));
         } catch (FileNotFoundException e) {
@@ -43,6 +44,14 @@ public class ParkourManager {
             } catch (InvalidConfigurationException e) {
                 Bukkit.getLogger().warning("[Magic-Parkour] Invalid config: " + e.getMessage());
             }
+        }
+
+        // placing start and end of parkours
+        for (Parkour parkour : ParkourManager.parkours) {
+            List<ParkourElement> elements = parkour.elements();
+
+            elements.get(0).show();
+            elements.get(elements.size() - 1).show();
         }
     }
 }

@@ -1,6 +1,7 @@
 package xenocraft.magicparkour.services;
 
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -12,6 +13,7 @@ import xenocraft.magicparkour.PlayerManager;
 import xenocraft.magicparkour.data.Parkour;
 import xenocraft.magicparkour.elements.CheckPoint;
 import xenocraft.magicparkour.elements.Step;
+import xenocraft.magicparkour.elements.steps.EndStep;
 import xenocraft.magicparkour.elements.steps.StartStep;
 
 public class PlayerParkouring {
@@ -59,6 +61,16 @@ public class PlayerParkouring {
             if (next instanceof CheckPoint check) {
                 lastCheckPoint = check;
                 player.playSound(playerLoc, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+            }
+            else if (next instanceof EndStep) {
+                iterator.renderSteps();
+                leaveParkour();
+
+                player.sendMessage("§eFinished parkour!");
+                player.playSound(playerLoc, Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
+                player.getWorld().spawnParticle(Particle.TOTEM, playerLoc, 50, 0, 0, 0, .5);
+
+                return;
             }
         }
 
