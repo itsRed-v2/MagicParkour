@@ -20,9 +20,12 @@ public class ParkourTab implements TabCompleter {
         if (!(sender instanceof Player player)) return new ArrayList<>();
 
         List<String> strings = new ArrayList<>();
+        
+        if (args.length == 1) {
+            if (PlayerManager.isPlayerRegistered(player.getUniqueId())) strings.add("leave");
+            if (player.hasPermission("magicparkour.reload")) strings.add("reload");
 
-        if (PlayerManager.isPlayerRegistered(player.getUniqueId())) {
-            strings.add("leave");
+            strings.removeIf(str -> !str.toLowerCase().startsWith(args[0].toLowerCase()));
         }
 
         return strings;

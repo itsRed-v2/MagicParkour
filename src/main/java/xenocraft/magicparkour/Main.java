@@ -45,9 +45,19 @@ public final class Main extends JavaPlugin {
         }
     }
 
+    public boolean reload() {
+        for (PlayerParkouring parkouring : PlayerManager.players.values()) {
+            parkouring.leaveParkour();
+            parkouring.getPlayer().sendMessage("§cYou got kicked out of the parkour because the plugin was reloaded");
+        }
+
+        ParkourManager.parkours.clear();
+        return ParkourManager.loadALL(parkourConfigFile);
+    }
+
     @SuppressWarnings("ConstantConditions")
     private void registerCommands() {
-        getCommand("parkour").setExecutor(new ParkourCommand());
+        getCommand("parkour").setExecutor(new ParkourCommand(this));
             getCommand("parkour").setTabCompleter(new ParkourTab());
     }
 

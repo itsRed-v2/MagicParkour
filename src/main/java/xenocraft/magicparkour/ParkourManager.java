@@ -22,17 +22,19 @@ public class ParkourManager {
 
     public static final Set<Parkour> parkours = new HashSet<>();
 
-    public static void loadALL(File parkourConfigFile) {
+    public static boolean loadALL(File parkourConfigFile) {
+
+        boolean successful = true;
 
         JsonElement config;
         try {
             config = JsonParser.parseReader(new FileReader(parkourConfigFile));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            return;
+            return false;
         }
 
-        if (!config.isJsonObject()) return;
+        if (!config.isJsonObject()) return true;
         JsonObject configObject = config.getAsJsonObject();
 
         for (Map.Entry<String, JsonElement> entry : configObject.entrySet()) {
@@ -43,6 +45,7 @@ public class ParkourManager {
                 ParkourManager.parkours.add(ParkourLoader.loadParkour(jsonParkour, parkourID));
             } catch (InvalidConfigurationException e) {
                 Bukkit.getLogger().warning("[Magic-Parkour] Invalid config: " + e.getMessage());
+                successful = false;
             }
         }
 
@@ -53,5 +56,7 @@ public class ParkourManager {
             elements.get(0).show();
             elements.get(elements.size() - 1).show();
         }
+
+        return successful;
     }
 }
