@@ -11,6 +11,7 @@ import xenocraft.magicparkour.commands.ParkourTab;
 import xenocraft.magicparkour.listeners.OnLeaveListener;
 import xenocraft.magicparkour.listeners.ParkourStartListener;
 import xenocraft.magicparkour.listeners.PlayerMoveListener;
+import xenocraft.magicparkour.listeners.WorldChangeListener;
 import xenocraft.magicparkour.services.PlayerParkouring;
 import xenocraft.magicparkour.tasks.ParkourInfoTitle;
 
@@ -65,6 +66,7 @@ public final class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ParkourStartListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(this), this);
         Bukkit.getPluginManager().registerEvents(new OnLeaveListener(), this);
+        Bukkit.getPluginManager().registerEvents(new WorldChangeListener(), this);
     }
 
     private void createParkourConfig() {
