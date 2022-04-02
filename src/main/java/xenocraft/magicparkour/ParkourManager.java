@@ -44,7 +44,7 @@ public class ParkourManager {
             try {
                 ParkourManager.parkours.add(ParkourLoader.loadParkour(jsonParkour, parkourID));
             } catch (InvalidConfigurationException e) {
-                Bukkit.getLogger().warning("[Magic-Parkour] Invalid config: " + e.getMessage());
+                Bukkit.getLogger().warning(String.format("[Magic-Parkour] Invalid config in parkour \"%s\": %s", parkourID, e.getMessage()));
                 successful = false;
             }
         }
