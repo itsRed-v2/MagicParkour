@@ -1,8 +1,10 @@
 package xenocraft.magicparkour;
 
 import java.io.File;
+import java.util.Locale;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -22,10 +24,13 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
 
+        saveDefaultConfig();
         createParkourConfig();
 
         registerCommands();
         registerEvents();
+
+        loadLocale();
 
         Main instance = this;
 
@@ -67,6 +72,23 @@ public final class Main extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(this), this);
         Bukkit.getPluginManager().registerEvents(new OnLeaveListener(), this);
         Bukkit.getPluginManager().registerEvents(new WorldChangeListener(), this);
+    }
+
+    private void loadLocale() {
+        Locale.setDefault(Locale.ENGLISH);
+
+        ConfigurationSection config = getConfig();
+        String language = config.getString("language", "en");
+        Locale locale = new Locale(language);
+
+        if (I18n.isSupported(locale)) {
+            I18n.setLocale(locale);
+        } else {
+            Bukkit.getLogger().warning("[Magic-Parkour] Specified language is not supported: " + locale + ". Using English (en) instead.");
+            I18n.setLocale(Locale.ENGLISH);
+        }
+
+        Bukkit.getLogger().info("[Magic-Parkour] Using locale: " + I18n.getLocale());
     }
 
     private void createParkourConfig() {
