@@ -54,7 +54,7 @@ public final class Main extends JavaPlugin {
     public boolean reload() {
         for (PlayerParkouring parkouring : PlayerManager.players.values()) {
             parkouring.leaveParkour();
-            parkouring.getPlayer().sendMessage("§cYou got kicked out of the parkour because the plugin was reloaded");
+            parkouring.getPlayer().sendMessage(I18n.getMessage("reload.kick"));
         }
 
         ParkourManager.parkours.clear();

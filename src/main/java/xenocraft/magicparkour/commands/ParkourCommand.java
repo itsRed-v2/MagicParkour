@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import org.jetbrains.annotations.NotNull;
+import xenocraft.magicparkour.I18n;
 import xenocraft.magicparkour.Main;
 import xenocraft.magicparkour.PlayerManager;
 
@@ -38,7 +39,7 @@ public class ParkourCommand implements CommandExecutor {
     }
 
     private void unknownCommand(Player player) {
-        player.sendMessage("§cUnknown command. Type \"/jump help\" for a list of available commands");
+        player.sendMessage(I18n.getMessage("command.unknown"));
     }
 
     private void leaveCommand(Player player) {
@@ -46,25 +47,22 @@ public class ParkourCommand implements CommandExecutor {
 
         if (PlayerManager.isPlayerRegistered(uuid)) {
             PlayerManager.getPlayer(uuid).leaveParkour();
-            player.sendMessage("§6Left parkour!");
+            player.sendMessage(I18n.getMessage("parkour.leave"));
         } else {
-            player.sendMessage("§cYour are not currently in a parkour");
+            player.sendMessage(I18n.getMessage("parkour.alreadyOut"));
         }
     }
 
     private void reloadCommand(Player player) {
         if (!player.hasPermission("magicparkour.reload")) {
-            player.sendMessage("§cYou don't have the permission to run this command.");
+            player.sendMessage(I18n.getMessage("command.noPermission"));
             return;
         }
 
-        player.sendMessage("§cPlease note that this command removes and recreates every parkour, " +
-                "meaning that anyone currently parkouring gets kicked off their current parkour.");
+        player.sendMessage(I18n.getMessage("reload.warn"));
 
         boolean success = main.reload();
 
-        if (success) player.sendMessage("§aSuccessfully reloaded parkours");
-        else player.sendMessage("§6There was an error while loading parkours. " +
-                "All parkours may not be available. See the logs for more info.");
+        player.sendMessage(I18n.getMessage(success ? "reload.success" : "reload.fail"));
     }
 }

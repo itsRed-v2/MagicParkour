@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import net.kyori.adventure.text.Component;
+
+import xenocraft.magicparkour.I18n;
 import xenocraft.magicparkour.Main;
 import xenocraft.magicparkour.PlayerManager;
 import xenocraft.magicparkour.services.PlayerParkouring;
@@ -31,11 +33,13 @@ public class ParkourInfoTitle {
                     int step = parkouring.getStepIndex();
                     int lastCheckPoint = parkouring.getCheckIndex();
 
-                    String builder = "§eStep §6" + step +
-                            " §f| §2Checkpoint §a" + lastCheckPoint +
-                            "§f | §7/parkour help";
+                    String title = String.format("§e%s §6%d §f| §2%s §a%d §f| §7/parkour help",
+                            I18n.getMessage("parkour.title.step"),
+                            step,
+                            I18n.getMessage("parkour.title.checkpoint"),
+                            lastCheckPoint);
 
-                    player.sendActionBar(Component.text(builder));
+                    player.sendActionBar(Component.text(title));
                 }
             }
         }.runTaskTimer(main, 2, 2);
