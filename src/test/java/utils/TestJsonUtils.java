@@ -15,6 +15,8 @@ public class TestJsonUtils extends TestCase {
     private static final JsonObject object = JsonParser.parseString("""
             {
                 "boolean": true,
+                "otherBool": false,
+                "stringBool": "true",
                 "string": "hello",
                 "number": 7.92,
                 "int": 573,
@@ -29,7 +31,9 @@ public class TestJsonUtils extends TestCase {
                 "blockdata2": "stone_bricks",
                 "complexBlockdata": "ladder[facing=west]",
                 "invalidMaterial": "stone-bricks",
-                "nestedObject": {"foo": "bar"}
+                "nestedObject": {"foo": "bar"},
+                "one": 1,
+                "zero": 0
             }
             """).getAsJsonObject();
 
@@ -168,7 +172,7 @@ public class TestJsonUtils extends TestCase {
 
     public void testDefaultGetInt() {
         try {
-            assertEquals(5, JsonUtils.getInt(object, "inexistion-field", 5));
+            assertEquals(5, JsonUtils.getInt(object, "inexisting-field", 5));
             assertEquals(2, JsonUtils.getInt(object, "double", 7));
         } catch (InvalidConfigurationException e) {
             fail("no exception expected but got: " + e.getMessage());
@@ -176,6 +180,39 @@ public class TestJsonUtils extends TestCase {
 
         expectError(() -> JsonUtils.getInt(object, "boolean", 5),
                 "element \"boolean\" is not a valid integer");
+    }
+
+    public void testGetBool() {
+        try {
+            assertTrue(JsonUtils.getBool(object, "boolean"));
+            assertTrue(JsonUtils.getBool(object, "stringBool"));
+            assertFalse(JsonUtils.getBool(object, "otherBool"));
+            assertFalse(JsonUtils.getBool(object, "one"));
+            assertFalse(JsonUtils.getBool(object, "zero"));
+            assertFalse(JsonUtils.getBool(object, "number"));
+            assertFalse(JsonUtils.getBool(object, "string"));
+        } catch (InvalidConfigurationException e) {
+            fail("no exception expected but got: " + e.getMessage());
+        }
+    }
+
+    public void testInvalidGetBool() {
+        expectError(() -> JsonUtils.getBool(object, "vector"),
+                "element \"vector\" is not a valid boolean");
+        expectError(() -> JsonUtils.getBool(object, "nestedObject"),
+                "element \"nestedObject\" is not a valid boolean");
+    }
+
+    public void testDefaultGetBool() {
+        try {
+            assertTrue(JsonUtils.getBool(object, "inexisting-field", true));
+            assertTrue(JsonUtils.getBool(object, "boolean", false));
+        } catch (InvalidConfigurationException e) {
+            fail("no exception expected but got: " + e.getMessage());
+        }
+
+        expectError(() -> JsonUtils.getBool(object, "vector", true),
+                "element \"vector\" is not a valid boolean");
     }
 
     public void testGetArray() {

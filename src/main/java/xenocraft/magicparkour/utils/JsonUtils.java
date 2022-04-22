@@ -93,6 +93,26 @@ public class JsonUtils {
         return getInt(object, memberName);
     }
 
+    public static boolean getBool(JsonObject object, String memberName) throws InvalidConfigurationException {
+        JsonElement element = getElement(object, memberName);
+
+        final InvalidConfigurationException exception = new InvalidConfigurationException("element \"" + memberName + "\" is not a valid boolean");
+        if (!element.isJsonPrimitive()) throw exception;
+
+        boolean bool;
+        try {
+            bool = element.getAsBoolean();
+        } catch (ClassCastException e) {
+            throw exception;
+        }
+        return bool;
+    }
+
+    public static boolean getBool(JsonObject object, String memberName, boolean defaultValue) throws InvalidConfigurationException {
+        if (!object.has(memberName)) return defaultValue;
+        return getBool(object, memberName);
+    }
+
     public static JsonObject getObject(JsonObject object, String memberName) throws InvalidConfigurationException {
         JsonElement element = getElement(object, memberName);
 
