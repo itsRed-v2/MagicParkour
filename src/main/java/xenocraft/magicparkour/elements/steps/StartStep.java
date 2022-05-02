@@ -67,11 +67,4 @@ public class StartStep implements Step, CheckPoint {
     public int getCheckIndex() {
         return 0;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof StartStep start
-                && location.equals(start.location)
-                && block.equals(start.block);
-    }
 }

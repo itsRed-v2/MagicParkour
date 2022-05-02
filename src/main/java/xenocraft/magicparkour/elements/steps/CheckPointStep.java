@@ -74,12 +74,4 @@ public class CheckPointStep implements Step, CheckPoint {
     public int getCheckIndex() {
         return checkIndex;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof CheckPointStep step
-                && block.equals(step.block)
-                && location.equals(step.location)
-                && takesScope == step.takesScope;
-    }
 }
