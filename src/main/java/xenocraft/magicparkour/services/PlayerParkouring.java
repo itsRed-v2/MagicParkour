@@ -87,26 +87,30 @@ public class PlayerParkouring {
             minHeight -= 5;
 
             if (playerVec.getY() < minHeight) {
-                iterator.hideSteps();
-                iterator.teleport(lastCheckPoint.getCheckIndex());
-                iterator.renderSteps();
-
-                fallCheck = false;
-
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        player.setFallDistance(0);
-                        lastCheckPoint.teleportPlayer(player);
-                        player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1, .5f);
-                        
-                        fallCheck = true;
-                    }
-                }.runTaskLater(main, 5);
+                tpToCheckpoint(main);
             }
         }
 
         // rendering steps
         iterator.renderSteps();
+    }
+
+    public void tpToCheckpoint(Main main) {
+        iterator.hideSteps();
+        iterator.teleport(lastCheckPoint.getCheckIndex());
+        iterator.renderSteps();
+
+        fallCheck = false;
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                player.setFallDistance(0);
+                lastCheckPoint.teleportPlayer(player);
+                player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1, .5f);
+
+                fallCheck = true;
+            }
+        }.runTaskLater(main, 5);
     }
 }

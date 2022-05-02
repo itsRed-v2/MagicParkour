@@ -30,6 +30,7 @@ public class ParkourCommand implements CommandExecutor {
         if (args.length == 1) {
             switch (args[0]) {
                 case "leave" -> leaveCommand(player);
+                case "checkpoint" -> checkpointCommand(player);
                 case "reload" -> reloadCommand(player);
                 default -> unknownCommand(player);
             }
@@ -49,7 +50,18 @@ public class ParkourCommand implements CommandExecutor {
             PlayerManager.getPlayer(uuid).leaveParkour();
             player.sendMessage(I18n.getMessage("parkour.leave"));
         } else {
-            player.sendMessage(I18n.getMessage("parkour.alreadyOut"));
+            player.sendMessage(I18n.getMessage("parkour.notInParkour"));
+        }
+    }
+
+    private void checkpointCommand(Player player) {
+        UUID uuid = player.getUniqueId();
+
+        if (PlayerManager.isPlayerRegistered(uuid)) {
+            PlayerManager.getPlayer(uuid).tpToCheckpoint(main);
+            player.sendMessage(I18n.getMessage("parkour.toCheckpoint"));
+        } else {
+            player.sendMessage(I18n.getMessage("parkour.notInParkour"));
         }
     }
 
