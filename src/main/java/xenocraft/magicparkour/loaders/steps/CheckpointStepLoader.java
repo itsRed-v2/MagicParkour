@@ -19,6 +19,8 @@ public class CheckpointStepLoader {
 
         BlockData block = JsonUtils.getBlockData(rootObject, "block", properties.checkpointBlock());
 
-        return new CheckPointStep(loc, block);
+        boolean scope = JsonUtils.getBool(rootObject, "scope", true);
+
+        return new CheckPointStep(loc, block, scope);
     }
 }

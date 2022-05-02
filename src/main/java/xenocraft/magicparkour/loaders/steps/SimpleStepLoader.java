@@ -19,6 +19,8 @@ public class SimpleStepLoader {
 
         BlockData block = JsonUtils.getBlockData(rootObject, "block", properties.baseBlock());
 
-        return new SimpleStep(loc, block);
+        boolean scope = JsonUtils.getBool(rootObject, "scope", true);
+
+        return new SimpleStep(loc, block, scope);
     }
 }

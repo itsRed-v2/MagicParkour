@@ -58,15 +58,24 @@ public class TestSimpleStepLoader {
                     "pos": [1, 23, 4]
                 }
                 """).getAsJsonObject();
+        JsonObject object2 = JsonParser.parseString("""
+                {
+                    "pos": [1, 23, 4],
+                    "scope": false
+                }
+                """).getAsJsonObject();
+
         World worldMock = mock(World.class);
 
         BlockData baseBlock = mock(BlockData.class);
         ParkourProperties properties = new ParkourProperties(worldMock, baseBlock, mock(BlockData.class));
 
-        SimpleStep expected = new SimpleStep(new Location(worldMock, 1, 23, 4), baseBlock);
+        SimpleStep expected = new SimpleStep(new Location(worldMock, 1, 23, 4), baseBlock, true);
+        SimpleStep expected2 = new SimpleStep(new Location(worldMock, 1, 23, 4), baseBlock, false);
         
         try {
             assertEquals(expected, SimpleStepLoader.load(object, properties));
+            assertEquals(expected2, SimpleStepLoader.load(object2, properties));
         } catch (InvalidConfigurationException e) {
             fail("no exception expected but got: " + e.getMessage());
         }

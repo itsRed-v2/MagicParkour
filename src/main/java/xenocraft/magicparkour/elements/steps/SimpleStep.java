@@ -12,17 +12,19 @@ public class SimpleStep implements Step {
 
     private final Location location;
     private final BlockData block;
+    private final boolean takesScope;
 
     private boolean visible = false;
 
-    public SimpleStep(Location location, BlockData blockData) {
+    public SimpleStep(Location location, BlockData blockData, boolean scope) {
         this.location = location.toBlockLocation();
         block = blockData;
+        takesScope = scope;
     }
 
     @Override
     public boolean takesScope() {
-        return true;
+        return takesScope;
     }
 
     @Override
@@ -59,6 +61,7 @@ public class SimpleStep implements Step {
     public boolean equals(Object obj) {
         return obj instanceof SimpleStep step
                 && block.equals(step.block)
-                && location.equals(step.location);
+                && location.equals(step.location)
+                && takesScope == step.takesScope;
     }
 }

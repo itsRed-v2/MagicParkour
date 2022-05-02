@@ -12,18 +12,20 @@ public class SlimeStep implements Step {
     private final Location location;
     private final int sizeX;
     private final int sizeZ;
+    private final boolean takesScope;
 
     private boolean visible = false;
 
-    public SlimeStep(Location location, int sizeX, int sizeZ) {
+    public SlimeStep(Location location, int sizeX, int sizeZ, boolean scope) {
         this.location = location.toBlockLocation();
         this.sizeX = sizeX;
         this.sizeZ = sizeZ;
+        takesScope = scope;
     }
 
     @Override
     public boolean takesScope() {
-        return false;
+        return takesScope;
     }
 
     @Override
@@ -62,7 +64,8 @@ public class SlimeStep implements Step {
         return obj instanceof SlimeStep step
                 && location.equals(step.location)
                 && sizeX == step.sizeX
-                && sizeZ == step.sizeZ;
+                && sizeZ == step.sizeZ
+                && takesScope == step.takesScope;
     }
 
     private void fill(Material material) {

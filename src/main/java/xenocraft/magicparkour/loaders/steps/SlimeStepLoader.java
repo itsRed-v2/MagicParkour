@@ -20,6 +20,8 @@ public class SlimeStepLoader {
 
         Location loc = new Location(properties.world(), vector.getX(), vector.getY(), vector.getZ());
 
-        return new SlimeStep(loc, sizeX, sizeZ);
+        boolean scope = JsonUtils.getBool(rootObject, "scope", false);
+
+        return new SlimeStep(loc, sizeX, sizeZ, scope);
     }
 }

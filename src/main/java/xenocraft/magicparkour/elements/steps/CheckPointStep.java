@@ -14,18 +14,20 @@ public class CheckPointStep implements Step, CheckPoint {
 
     private final Location location;
     private final BlockData block;
+    private final boolean takesScope;
     public int checkIndex;
 
     private boolean visible = false;
 
-    public CheckPointStep(Location location, BlockData blockData) {
+    public CheckPointStep(Location location, BlockData blockData, boolean scope) {
         this.location = location.toBlockLocation();
         block = blockData;
+        takesScope = scope;
     }
 
     @Override
     public boolean takesScope() {
-        return true;
+        return takesScope;
     }
 
     @Override
@@ -77,6 +79,7 @@ public class CheckPointStep implements Step, CheckPoint {
     public boolean equals(Object obj) {
         return obj instanceof CheckPointStep step
                 && block.equals(step.block)
-                && location.equals(step.location);
+                && location.equals(step.location)
+                && takesScope == step.takesScope;
     }
 }

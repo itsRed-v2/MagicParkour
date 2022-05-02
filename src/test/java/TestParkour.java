@@ -17,13 +17,13 @@ public class TestParkour {
     @Test
     public void testCheckNumbering() {
         List<ParkourElement> elements = new ArrayList<>();
-        elements.add(new CheckPointStep(mock(Location.class), mock(BlockData.class)));
+        elements.add(new CheckPointStep(mock(Location.class), mock(BlockData.class), true));
         elements.add(mock(SimpleStep.class));
-        elements.add(new CheckPointStep(mock(Location.class), mock(BlockData.class)));
-        elements.add(new CheckPointStep(mock(Location.class), mock(BlockData.class)));
+        elements.add(new CheckPointStep(mock(Location.class), mock(BlockData.class), true));
+        elements.add(new CheckPointStep(mock(Location.class), mock(BlockData.class), true));
         elements.add(mock(SimpleStep.class));
         elements.add(mock(SimpleStep.class));
-        elements.add(new CheckPointStep(mock(Location.class), mock(BlockData.class)));
+        elements.add(new CheckPointStep(mock(Location.class), mock(BlockData.class), true));
 
         Parkour parkour = new Parkour("parkourName", elements);
         List<ParkourElement> resultElements = parkour.elements();

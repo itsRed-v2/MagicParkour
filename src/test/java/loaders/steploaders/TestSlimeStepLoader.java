@@ -25,15 +25,24 @@ public class TestSlimeStepLoader {
                     "pos": [1, 23, 4]
                 }
                 """).getAsJsonObject();
+        JsonObject object2 = JsonParser.parseString("""
+                {
+                    "type": "slime",
+                    "pos": [1, 23, 4],
+                    "scope": true
+                }
+                """).getAsJsonObject();
         
         World worldMock = mock(World.class);
 
         ParkourProperties properties = new ParkourProperties(worldMock, mock(BlockData.class), mock(BlockData.class));
 
-        SlimeStep expected = new SlimeStep(new Location(worldMock, 1, 23, 4), 1, 1);
+        SlimeStep expected = new SlimeStep(new Location(worldMock, 1, 23, 4), 1, 1, false);
+        SlimeStep expected2 = new SlimeStep(new Location(worldMock, 1, 23, 4), 1, 1, true);
 
         try {
             assertEquals(expected, SlimeStepLoader.load(object, properties));
+            assertEquals(expected2, SlimeStepLoader.load(object2, properties));
         } catch (InvalidConfigurationException e) {
             fail("no exception expected but got: " + e.getMessage());
         }
@@ -54,7 +63,7 @@ public class TestSlimeStepLoader {
 
         ParkourProperties properties = new ParkourProperties(worldMock, mock(BlockData.class), mock(BlockData.class));
 
-        SlimeStep expected = new SlimeStep(new Location(worldMock, 1, 23, 4), 3, 2);
+        SlimeStep expected = new SlimeStep(new Location(worldMock, 1, 23, 4), 3, 2, false);
 
         try {
             assertEquals(expected, SlimeStepLoader.load(object, properties));
