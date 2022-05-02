@@ -21,7 +21,10 @@ public class TestSimpleStepLoader {
     private void expectError(String jsonInput, String expectedErrorMessage) {
         JsonObject object = JsonParser.parseString(jsonInput).getAsJsonObject();
         
-        ParkourProperties properties = new ParkourProperties(mock(World.class), mock(BlockData.class), mock(BlockData.class));
+        ParkourProperties properties = new ParkourProperties(mock(World.class),
+                mock(BlockData.class),
+                mock(BlockData.class),
+                mock(BlockData.class));
 
         try {
             ElementLoader.load(object, properties);
@@ -68,7 +71,7 @@ public class TestSimpleStepLoader {
         World worldMock = mock(World.class);
 
         BlockData baseBlock = mock(BlockData.class);
-        ParkourProperties properties = new ParkourProperties(worldMock, baseBlock, mock(BlockData.class));
+        ParkourProperties properties = new ParkourProperties(worldMock, baseBlock, mock(BlockData.class), mock(BlockData.class));
 
         SimpleStep expected = new SimpleStep(new Location(worldMock, 1, 23, 4), baseBlock, true);
         SimpleStep expected2 = new SimpleStep(new Location(worldMock, 1, 23, 4), baseBlock, false);

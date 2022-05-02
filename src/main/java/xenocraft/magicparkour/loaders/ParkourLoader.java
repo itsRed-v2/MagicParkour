@@ -35,9 +35,10 @@ public class ParkourLoader {
 
         // Parsing properties
         BlockData baseBlock = JsonUtils.getBlockData(rootObject, "base_block", Bukkit.createBlockData(Material.WHITE_STAINED_GLASS));
+        BlockData obstacleBlock = JsonUtils.getBlockData(rootObject, "obstacle_block", Bukkit.createBlockData(Material.LIGHT_GRAY_STAINED_GLASS));
         BlockData checkpointBlock = JsonUtils.getBlockData(rootObject, "checkpoint_block", Bukkit.createBlockData(Material.GOLD_BLOCK));
 
-        ParkourProperties properties = new ParkourProperties(world, baseBlock, checkpointBlock);
+        ParkourProperties properties = new ParkourProperties(world, baseBlock, checkpointBlock, obstacleBlock);
 
         // Parsing steps
             List<ParkourElement> elements = new ArrayList<>();

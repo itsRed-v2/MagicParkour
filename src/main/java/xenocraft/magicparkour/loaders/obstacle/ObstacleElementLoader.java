@@ -24,16 +24,16 @@ public class ObstacleElementLoader {
 
         for (int i = 0; i < blocks.size(); i++) {
             JsonObject block = JsonUtils.getArrayObject(blocks, i);
-            blockArray[i] = loadBlock(block);
+            blockArray[i] = loadBlock(block, properties);
         }
 
         return new ObstacleElement(loc, blockArray);
     }
     
-    private static ObstacleElement.ObstacleBlock loadBlock(JsonObject rootObject) throws InvalidConfigurationException {
+    private static ObstacleElement.ObstacleBlock loadBlock(JsonObject rootObject, ParkourProperties properties) throws InvalidConfigurationException {
 
         Vector offset = JsonUtils.getVector(rootObject, "offset");
-        BlockData block = JsonUtils.getBlockData(rootObject, "block");
+        BlockData block = JsonUtils.getBlockData(rootObject, "block", properties.obstacleBlock());
 
         return new ObstacleElement.ObstacleBlock(block, offset);
     }
