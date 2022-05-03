@@ -2,7 +2,7 @@
 
 ## Configuration d'un parkour
 
-La création d'un parkour se fait par son écriture dans le fichier `parkour.json`
+La création d'un parkour se fait par son écriture dans le fichier de configuration `parkour.json`. Si il n'y a pas de fichier `parkour.json`, le plugin en créera un vide au démarrage.
 
 ***
 
@@ -124,7 +124,7 @@ Cette section est similaire à la section `"start"`, sauf qu'elle définit **le 
 
 - Ce tableau est souvent la partie la plus longue du fichier, car elle définit chaque step un par un.
 
-- Pour terminer le parkour, le joueur parcourir tous les steps dans l'ordre puis arriver sur le block défini dans `"end"`.
+- Pour terminer le parkour, le joueur doit parcourir tous les steps dans l'ordre puis arriver sur le block défini dans `"end"`.
 
 Il existe plusieurs [types de steps](#types-de-steps) ayant chacun des propriétés et des effets différents.
 
