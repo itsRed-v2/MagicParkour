@@ -27,6 +27,7 @@ public class ParkourTab implements TabCompleter {
                 strings.add("checkpoint");
             }
             if (player.hasPermission("magicparkour.reload")) strings.add("reload");
+            strings.add("help");
 
             strings.removeIf(str -> !str.toLowerCase().startsWith(args[0].toLowerCase()));
         }

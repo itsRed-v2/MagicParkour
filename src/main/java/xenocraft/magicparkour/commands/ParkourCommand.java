@@ -25,17 +25,20 @@ public class ParkourCommand implements CommandExecutor {
 
         if (!(sender instanceof Player player)) return true;
 
-        if (args.length < 1) return true;
+        if (args.length < 1) player.sendMessage(I18n.getMessage("command.missingArg"));
 
-        if (args.length == 1) {
+        else if (args.length == 1) {
             switch (args[0]) {
                 case "leave" -> leaveCommand(player);
                 case "checkpoint" -> checkpointCommand(player);
+                case "help" -> helpCommand(player);
                 case "reload" -> reloadCommand(player);
                 default -> unknownCommand(player);
             }
         }
 
+        else player.sendMessage(I18n.getMessage("command.tooManyArgs"));
+        
         return true;
     }
 
@@ -63,6 +66,10 @@ public class ParkourCommand implements CommandExecutor {
         } else {
             player.sendMessage(I18n.getMessage("parkour.notInParkour"));
         }
+    }
+
+    private void helpCommand(Player player) {
+        player.sendMessage(I18n.getMessage("command.help"));
     }
 
     private void reloadCommand(Player player) {
