@@ -193,14 +193,46 @@ Il est obligatoire et s'il n'est pas défini, le parkour ne chargera pas.
 
 Dans cette section nous allons voir tous les types de steps et leur propriétés.
 
-### "simple"
+### simple
 
 Le step `"simple"` et le plus simple des steps: il n'est composé que d'un block.
 
-Il prend 3 attributs:
-- `"pos"` définit la position du bloc.
+Il prend 3 attributs (en + de `"type"`):
+- `"pos"` définit les [coordonnées](#coordonnées) du bloc.
 - (*optionnel*) `"block"` définit le [block](#blockdata) qui compose ce step.
-- (*optionnel*) `"scope"` est un booléen qui définit si le step prendra du scope ou non. Sa valeur par défaut est `true`.
+- (*optionnel*) `"scope"` définit la valeur [scope](#scope) du step. Valeur par défaut: `true`.
+
+Voici deux exemples de steps `"simple"` valides:
+
+```json
+{
+  "pos": [237, 86, 76]
+}
+```
+
+```json
+{
+  "type": "simple",
+  "pos": [237, 86, 76],
+  "block": "stone",
+  "scope": false
+}
+```
+
+### checkpoint
+
+Le step `"checkpoint"` est similaire au step `"simple"` avec une différence majeure: Une fois que je joueur y est parvenu, il y est re-téléporté dès qu'il tombe. Le joueur peut aussi y revenir grâce à la commande `/parkour checkpoint`.
+
+Il prend les 3 mêmes attributs que le step `"simple"`. Son scope par défaut est `true`.
+
+### slime
+
+Le step `"slime"` est un step qui forme une plateforme de blocs de slime d'une taille définie.
+
+Il prend 4 valeurs:
+- `"pos"` définit les [coordonnées](#coordonnées) du coin ayant les plus petites coordonnées x et z.
+- (*optionnels*) `"sizeX"` et `sizeZ` sont des entiers qui définissent la taille de la plateforme sur les axes X et Z. Leur valeur par défaut est `1`.
+- (*optionnel*) `"scope"` définit la valeur [scope](#scope) du step. Valeur par défaut: `false`.
 
 ***
 
@@ -213,3 +245,5 @@ Certains steps peuvent ne pas prendre de scope, et alors le nombre de steps qui 
 On peut imaginer le scope comme un *nombre* qui part du step où le joueur se trouve avec une valeur de 2, et qui avance de step en step jusqu'a ce qu'il atteigne 0. Chaque fois que le *nombre* traverse un step a qui la valeur `"scope"` est `true`, il perd 1. Le step sur lequel le joueur se trouve ne compte pas.
 
 En d'autres mots, il sera affiché devant le joueur un total de 2 steps qui ont `"scope"` à `true` plus tous les steps avant.
+
+Certains steps ont la possibilité de modifier si leurs valeur `"scope"` mais d'autres non.
