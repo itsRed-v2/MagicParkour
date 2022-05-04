@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.Vector;
 
-import xenocraft.magicparkour.I18n;
+import xenocraft.magicparkour.Msg;
 import xenocraft.magicparkour.ParkourManager;
 import xenocraft.magicparkour.PlayerManager;
 import xenocraft.magicparkour.data.Parkour;
@@ -32,7 +32,7 @@ public class ParkourStartListener implements Listener {
 
             if (start.isValidPos(playerVec)) {
                 PlayerManager.playerJoin(player, parkour);
-                player.sendMessage(String.format(I18n.getMessage("parkour.start"), parkour.name()));
+                player.sendMessage(String.format(Msg.get("parkour.start"), parkour.name()));
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                 return;
             }

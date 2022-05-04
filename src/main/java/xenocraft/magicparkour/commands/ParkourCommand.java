@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import org.jetbrains.annotations.NotNull;
-import xenocraft.magicparkour.I18n;
+import xenocraft.magicparkour.Msg;
 import xenocraft.magicparkour.Main;
 import xenocraft.magicparkour.PlayerManager;
 
@@ -25,7 +25,7 @@ public class ParkourCommand implements CommandExecutor {
 
         if (!(sender instanceof Player player)) return true;
 
-        if (args.length < 1) player.sendMessage(I18n.getMessage("command.missingArg"));
+        if (args.length < 1) player.sendMessage(Msg.get("command.missingArg"));
 
         else if (args.length == 1) {
             switch (args[0]) {
@@ -37,13 +37,13 @@ public class ParkourCommand implements CommandExecutor {
             }
         }
 
-        else player.sendMessage(I18n.getMessage("command.tooManyArgs"));
+        else player.sendMessage(Msg.get("command.tooManyArgs"));
         
         return true;
     }
 
     private void unknownCommand(Player player) {
-        player.sendMessage(I18n.getMessage("command.unknown"));
+        player.sendMessage(Msg.get("command.unknown"));
     }
 
     private void leaveCommand(Player player) {
@@ -51,9 +51,9 @@ public class ParkourCommand implements CommandExecutor {
 
         if (PlayerManager.isPlayerRegistered(uuid)) {
             PlayerManager.getPlayer(uuid).leaveParkour();
-            player.sendMessage(I18n.getMessage("parkour.leave"));
+            player.sendMessage(Msg.get("parkour.leave"));
         } else {
-            player.sendMessage(I18n.getMessage("parkour.notInParkour"));
+            player.sendMessage(Msg.get("parkour.notInParkour"));
         }
     }
 
@@ -62,26 +62,26 @@ public class ParkourCommand implements CommandExecutor {
 
         if (PlayerManager.isPlayerRegistered(uuid)) {
             PlayerManager.getPlayer(uuid).tpToCheckpoint(main);
-            player.sendMessage(I18n.getMessage("parkour.toCheckpoint"));
+            player.sendMessage(Msg.get("parkour.toCheckpoint"));
         } else {
-            player.sendMessage(I18n.getMessage("parkour.notInParkour"));
+            player.sendMessage(Msg.get("parkour.notInParkour"));
         }
     }
 
     private void helpCommand(Player player) {
-        player.sendMessage(I18n.getMessage("command.help"));
+        player.sendMessage(Msg.get("command.help"));
     }
 
     private void reloadCommand(Player player) {
         if (!player.hasPermission("magicparkour.reload")) {
-            player.sendMessage(I18n.getMessage("command.noPermission"));
+            player.sendMessage(Msg.get("command.noPermission"));
             return;
         }
 
-        player.sendMessage(I18n.getMessage("reload.warn"));
+        player.sendMessage(Msg.get("reload.warn"));
 
         boolean success = main.reload();
 
-        player.sendMessage(I18n.getMessage(success ? "reload.success" : "reload.fail"));
+        player.sendMessage(Msg.get(success ? "reload.success" : "reload.fail"));
     }
 }

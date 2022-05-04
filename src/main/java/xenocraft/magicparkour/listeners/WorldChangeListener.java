@@ -8,7 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 
-import xenocraft.magicparkour.I18n;
+import xenocraft.magicparkour.Msg;
 import xenocraft.magicparkour.PlayerManager;
 
 public class WorldChangeListener implements Listener {
@@ -20,7 +20,7 @@ public class WorldChangeListener implements Listener {
 
         if (PlayerManager.isPlayerRegistered(uuid)) {
             PlayerManager.getPlayer(uuid).leaveParkour();
-            player.sendMessage(I18n.getMessage("parkour.changeWorld"));
+            player.sendMessage(Msg.get("parkour.changeWorld"));
         }
     }
 }

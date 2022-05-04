@@ -8,7 +8,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import org.jetbrains.annotations.NotNull;
-import xenocraft.magicparkour.I18n;
+import xenocraft.magicparkour.Msg;
 import xenocraft.magicparkour.Main;
 import xenocraft.magicparkour.PlayerManager;
 import xenocraft.magicparkour.data.Parkour;
@@ -67,7 +67,7 @@ public class PlayerParkouring {
                 iterator.renderSteps();
                 leaveParkour();
 
-                player.sendMessage(I18n.getMessage("parkour.finish"));
+                player.sendMessage(Msg.get("parkour.finish"));
                 player.playSound(playerLoc, Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                 player.getWorld().spawnParticle(Particle.TOTEM, playerLoc, 50, 0, 0, 0, .5);
 
