@@ -63,6 +63,8 @@ Voici un exemple simple de parkour:
 {
   "lobby": {
     "world": "world",
+    "base_block": "cyan_stained_glass",
+    "checkpoint_block": "diamond_block",
     "start": {
       "pos": [231, 85, 79]
     },
@@ -126,7 +128,7 @@ Cette section est similaire à la section `"start"`, sauf qu'elle définit **le 
 
 - Pour terminer le parkour, le joueur doit parcourir tous les steps dans l'ordre puis arriver sur le block défini dans `"end"`.
 
-Il existe plusieurs [types de steps](#types-de-steps) ayant chacun des propriétés et des effets différents.
+Il existe plusieurs types de [steps](#step) ayant chacun des propriétés et des effets différents.
 
 ## Éléments optionnels
 
@@ -140,7 +142,74 @@ Par exemple
 ```
 fera apparaître le message "Début du parkour **Sky line**" (avec "Sky line" en vert et en gras) quand un joueur commencera le parkour.
 
+Si cet attribut n'est pas spécifié, l'id du parkour sera utilisé comme nom.
+
+### "base_block"
+
+Cet attribut définis le [block](#blockdata) qui sera utilisé par défaut pour tous les steps de type [simple](#simple) qui n'ont pas de valeur `"block"` définie.
+
+La valeur par défaut de cet attribut est `"white_stained_glass"`.
+
+### "checkpoint_block"
+
+Cet attribut fonctionne de la même facon que ["base_block"](#base_block), mais définit le block qui sera utilisé pour les steps de type [checkpoint](#checkpoint).
+
+Sa valeur par défaut est `"gold_block"`.
+
+### "obstacle_block"
+
+Vous l'aurez deviné, cet attribut définit le [block](#blockdata) par défaut qui sera utilisé pour tous les blocks des steps de type [obstacle](#obstacle) qui n'ont pas de valeur `"block"` définie.
+
+Sa valeur par défaut est `"light_gray_stained_glass"`.
+
 ***
+
+## Step
+
+Il existe plusieurs types de steps permettant de créer des parkour moins monotones.
+Chaque type de step différent prendra des valeurs différentes des autres types, mais certains attributs sont communs à tous ou reviennent souvent.
+
+Voici les attributs qui sont communs à tous les steps:
+
+### "type"
+
+L'attribut `"type"` définit de quel type le step est.
+
+Il peut prendre les valeurs suivantes:
+- `"simple"`
+- `"checkpoint"`
+- `"slime"`
+- `"obstacle"`
+
+Il n'est pas obligatoire et s'il n'est pas défini, il prendra la valeur `"simple"`.
+
+### "pos"
+
+L'attribut `"pos"` définit la position, ou l'origine du step. Il a pour valeur une [coordonnée](#coordonnées).
+
+Il est obligatoire et s'il n'est pas défini, le parkour ne chargera pas.
 
 ## Types de steps
 
+Dans cette section nous allons voir tous les types de steps et leur propriétés.
+
+### "simple"
+
+Le step `"simple"` et le plus simple des steps: il n'est composé que d'un block.
+
+Il prend 3 attributs:
+- `"pos"` définit la position du bloc.
+- (*optionnel*) `"block"` définit le [block](#blockdata) qui compose ce step.
+- (*optionnel*) `"scope"` est un booléen qui définit si le step prendra du scope ou non. Sa valeur par défaut est `true`.
+
+***
+
+## Scope
+
+Le scope est le nombre de [steps](#step) qui apparaissent devant et derrière le joueur. Sa valeur est de `2`. Le plugin ne permet pas encore de modifier cette valeur dans le fichier de configuration.
+
+Certains steps peuvent ne pas prendre de scope, et alors le nombre de steps qui apparaissent sera augmenté.
+
+On peut imaginer le scope comme un *nombre* qui part du step où le joueur se trouve avec une valeur de 2, et qui avance de step en step jusqu'a ce qu'il atteigne 0. Chaque fois que le *nombre* traverse un step a qui la valeur `"scope"` est `true`, il perd 1. Le step sur lequel le joueur se trouve ne compte pas.
+
+En d'autres mots, il sera affiché devant le joueur un total de 2 steps qui ont `"scope"` à `true` plus tous les steps avant.
