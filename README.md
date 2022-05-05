@@ -1,6 +1,6 @@
 # MagicParkour
 
-## Configuration d'un parkour
+# Configuration des parkour
 
 La création d'un parkour se fait par son écriture dans le fichier de configuration `parkour.json`. Si il n'y a pas de fichier `parkour.json`, le plugin en créera un vide au démarrage.
 
@@ -291,3 +291,15 @@ On peut imaginer le scope comme un *nombre* qui part du step où le joueur se tr
 En d'autres mots, il sera affiché devant le joueur un total de 2 steps qui ont `"scope"` à `true` plus tous les steps avant.
 
 Il est possible de modifier la valeur `"scope"` de la plupart des steps.
+
+***
+
+# Configuration des messages
+
+Il existe un fichier `messages.yml` permettant de modifier a votre guise tous les messages utilisés par le plugin.
+
+S'il n'existe pas, il est généré au démarrage du plugin.
+
+Par défaut, il est généré avec tous les messages du plugin. Vous pouvez les modifier pour personnaliser l'experience utilisateur! Cependant, attention a ne pas mettre n'importe quoi, sinon le plugin sera inutilisable..
+
+S'il manque un message, le message par défaut sera utilisé.
