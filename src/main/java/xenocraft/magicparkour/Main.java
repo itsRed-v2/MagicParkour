@@ -2,6 +2,8 @@ package xenocraft.magicparkour;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -10,6 +12,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.google.common.base.Charsets;
 import xenocraft.magicparkour.commands.ParkourCommand;
 import xenocraft.magicparkour.commands.ParkourTab;
 import xenocraft.magicparkour.listeners.OnLeaveListener;
@@ -27,7 +30,8 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        createConfig();
+        createParkourConfig();
+        createMsgConfig();
         Msg.init(this);
 
         registerCommands();
@@ -53,7 +57,7 @@ public final class Main extends JavaPlugin {
     }
 
     public boolean reload() {
-        boolean msgSuccess = loadMessages();
+        boolean msgSuccess = createMsgConfig();
 
         for (PlayerParkouring parkouring : PlayerManager.players.values()) {
             parkouring.leaveParkour();
@@ -81,18 +85,22 @@ public final class Main extends JavaPlugin {
         return messagesConfig;
     }
 
-    private void createConfig() {
+    private void createParkourConfig() {
         parkourConfigFile = new File(getDataFolder(), "parkour.json");
         if (!parkourConfigFile.exists()) saveResource(parkourConfigFile.getName(), false);
+    }
 
+    private boolean createMsgConfig() {
         messagesConfigFile = new File(getDataFolder(), "messages.yml");
         if (!messagesConfigFile.exists()) saveResource(messagesConfigFile.getName(), false);
 
         messagesConfig = new YamlConfiguration();
-        loadMessages();
-    }
 
-    private boolean loadMessages() {
+        final InputStream defaultMessagesStream = getResource("messages.yml");
+        if (defaultMessagesStream != null) {
+            messagesConfig.setDefaults(YamlConfiguration.loadConfiguration(new InputStreamReader(defaultMessagesStream, Charsets.UTF_8)));
+        }
+
         try {
             messagesConfig.load(messagesConfigFile);
         } catch (IOException | InvalidConfigurationException e) {
