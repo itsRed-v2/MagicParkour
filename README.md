@@ -230,13 +230,57 @@ Il prend les 3 mêmes attributs que le step `"simple"`. Son scope par défaut es
 Le step `"slime"` est un step qui forme une plateforme de blocs de slime d'une taille définie.
 
 Il prend 4 valeurs:
-- `"pos"` définit les [coordonnées](#coordonnées) du coin ayant les plus petites coordonnées x et z.
+- `"pos"` définit les [coordonnées](#coordonnées) du coin ayant les plus petites coordonnées x et z (le coin nord-ouest).
 - (*optionnels*) `"sizeX"` et `sizeZ` sont des entiers qui définissent la taille de la plateforme sur les axes X et Z. Leur valeur par défaut est `1`.
 - (*optionnel*) `"scope"` définit la valeur [scope](#scope) du step. Valeur par défaut: `false`.
+
+Voici l'exemple d'un step `"slime"` qui forme une plateforme de 2 par 3 blocs de slime:
+
+```json
+{
+  "type": "slime",
+  "pos": [244, 80, 99],
+  "sizeX": 3,
+  "sizeZ": 2
+}
+```
+
+### obstacle
+
+Le step `"obstacle"` est un step qui ne nécessite pas d'être parcouru, mais permet d'ajouter des blocs au parkour de facon à aider/déranger le joueur. Il peut être composé de plusieurs blocs.
+
+Il prend 2 valeurs:
+- `"pos"` définit les coordonnées à l'*origine* du step obstacle.
+- `"blocks"` est un tableau d'éléments définissant les différents blocs qui composent l'osbtacle.
+
+#### Bloc d'obstacle
+
+Chaque bloc de l'obstacle est défini par une section json qui prend 2 arguments:
+- `"offset"` est un vecteur qui, additionné à l'*origine* du step obstacle, donne la coordonnée du bloc.
+- (*optionnel*) `"block"` définis le [block](#blockdata) représenté par cet élément. Sa valeur par défaut est la valeur ["obstacle_block"](#obstacle_block) définie plus tôt dans le parkour.
+
+#### Exemple
+
+Voici un exemple de step obstacle composé de 2 blocs empilés sur lequels sont positionnés des échelles. Les 2 blocs seront ceux définis par ["obstacle_block"](#obstacle_block).
+
+```json
+{
+  "type": "obstacle",
+  "pos": [230, 88, 85],
+  "blocks": [
+    { "offset": [0, 0, 0] },
+    { "offset": [1, 0, 0], "block": "ladder[facing=east]" },
+    { "offset": [0, 1, 0] },
+    { "offset": [1, 1, 0], "block": "ladder[facing=east]" }
+  ]
+}
+```
 
 ***
 
 ## Scope
+
+*Si vous ne comprenez rien à cette section, de 1 c'est parce que j'explique mal, et de 2 ce n'est pas grave. Comprendre le mécanisme scope peut etre utile dans des cas assez spécifiques, mais en général vous n'en aurez pas besoin pour créer un parkour.*
 
 Le scope est le nombre de [steps](#step) qui apparaissent devant et derrière le joueur. Sa valeur est de `2`. Le plugin ne permet pas encore de modifier cette valeur dans le fichier de configuration.
 
@@ -246,4 +290,4 @@ On peut imaginer le scope comme un *nombre* qui part du step où le joueur se tr
 
 En d'autres mots, il sera affiché devant le joueur un total de 2 steps qui ont `"scope"` à `true` plus tous les steps avant.
 
-Certains steps ont la possibilité de modifier si leurs valeur `"scope"` mais d'autres non.
+Il est possible de modifier la valeur `"scope"` de la plupart des steps.
